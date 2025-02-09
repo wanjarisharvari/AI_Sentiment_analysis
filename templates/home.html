@@ -1,0 +1,161 @@
+{% block content %}
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f3e8ff, #d1c4e9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #4a148c;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            border: 2px solid #6a1b9a;
+            text-align: center;
+        }
+
+        h1 {
+            color: #6a1b9a;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            color: #4a148c;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.3);
+            color: #4a148c;
+            outline: none;
+            text-align: center;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        input[type="text"]::placeholder {
+            color: #7b1fa2;
+            opacity: 0.8;
+        }
+
+        input[type="text"]:focus,
+        input[type="file"]:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.02);
+        }
+
+        .or-divider {
+            font-size: 1rem;
+            margin: 10px 0;
+            color: #6a1b9a;
+            font-weight: bold;
+        }
+
+        .upload-btn {
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            background: white;
+            color: #6a1b9a;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background: #d1c4e9;
+            transform: scale(1.05);
+        }
+
+        .note {
+            margin-top: 5px;
+            color: #7b1fa2;
+            font-size: 0.85rem;
+        }
+
+        .analyze-btn {
+            display: inline-block;
+            background: #ba68c8;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            text-decoration: none;
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .analyze-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(186, 104, 200, 0.5);
+        }
+    </style>
+
+    <div class="container">
+        <h1>Sentiment Analysis</h1>
+        <p class="subtitle">Decode Emotions, Discover Insights: Empowering Businesses with Sentiment Analysis.</p>
+    
+        <form id="analyze-form" method="POST" action="{% url 'analyze' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+    
+            <!-- Text Input -->
+            <input type="text" id="user_text" name="user_text" placeholder="Type your text here">
+    
+            <div class="or-divider">or</div>
+    
+            <!-- File Upload -->
+            <input type="file" id="csv_file" name="csv_file" accept=".csv">
+    
+            <p class="note"><small>*Upload a CSV file for batch processing</small></p>
+    
+            <!-- Corrected Submit Button -->
+            <button type="submit" class="analyze-btn">Analyze</button>
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById('analyze-form').addEventListener('submit', function(event) {
+            var textInput = document.getElementById('user_text').value.trim();
+            var fileInput = document.getElementById('csv_file').files.length;
+    
+            if (!textInput && fileInput === 0) {
+                alert("Please enter text or upload a CSV file.");
+                event.preventDefault();  // Prevent form submission if both are empty
+            }
+        });
+    </script>    
+
+{% endblock %}
